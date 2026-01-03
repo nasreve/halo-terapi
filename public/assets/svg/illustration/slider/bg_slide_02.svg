@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1366" height="512" viewBox="0 0 1366 512">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-0.152" y1="1.341" x2="1.032" y2="0.086" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0cb754"/>
+      <stop offset="1" stop-color="#8ccc54"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1760" data-name="Rectangle 1760" width="1366" height="512" transform="translate(0 394)" fill="url(#linear-gradient)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_5075" data-name="Group 5075" transform="translate(15985 14591)">
+    <rect id="Rectangle_1759" data-name="Rectangle 1759" width="1366" height="512" transform="translate(-15985 -14591)" fill="url(#linear-gradient)"/>
+    <g id="Mask_Group_10" data-name="Mask Group 10" transform="translate(-15985 -14985)" clip-path="url(#clip-path)">
+      <g id="Group_4619" data-name="Group 4619">
+        <path id="Path_703" data-name="Path 703" d="M-21677.178-19378.416c-161.3-86.457-100.963-241.375,0-331.891s239.629-6.963,364.383-102.121-1.16-196.7,134.611-278.508,313.9-64.406,447.938,23.209,147.957,227.447,88.193,327.246-182.322,19.623-279.8,113.623-25.979,203.762-202.951,276.289S-21515.875-19291.961-21677.178-19378.416Z" transform="translate(21618.559 20403.771)" fill="#fff" opacity="0.07"/>
+        <path id="Path_705" data-name="Path 705" d="M-21715.67-19674.141c-98.979-53.051-61.951-148.111,0-203.652s147.037-4.273,223.588-62.662-.711-120.7,82.6-170.9,192.613-39.52,274.859,14.242,90.787,139.564,54.115,200.8-132.445-4.984-192.26,52.693,4.629,142.059-103.963,186.563S-21616.693-19621.092-21715.67-19674.141Z" transform="translate(22140.035 20655.771)" fill="#fff" opacity="0.06"/>
+        <path id="Path_795" data-name="Path 795" d="M-21715.67-19674.141c-98.979-53.051-61.951-148.111,0-203.652s147.037-4.273,223.588-62.662-.711-120.7,82.6-170.9,192.613-39.52,274.859,14.242,90.787,139.564,54.115,200.8-132.445-4.984-192.26,52.693,4.629,142.059-103.963,186.563S-21616.693-19621.092-21715.67-19674.141Z" transform="translate(22941.035 20296.771)" fill="#fff" opacity="0.06"/>
+        <path id="Path_796" data-name="Path 796" d="M-21715.67-19674.141c-98.979-53.051-61.951-148.111,0-203.652s147.037-4.273,223.588-62.662-.711-120.7,82.6-170.9,192.613-39.52,274.859,14.242,90.787,139.564,54.115,200.8-132.445-4.984-192.26,52.693,4.629,142.059-103.963,186.563S-21616.693-19621.092-21715.67-19674.141Z" transform="translate(22678.035 20501.771)" fill="#fff" opacity="0.06"/>
+        <circle id="Ellipse_222" data-name="Ellipse 222" cx="44.5" cy="44.5" r="44.5" transform="translate(25 423)" fill="#fff" opacity="0.08"/>
+      </g>
+    </g>
+  </g>
+</svg>

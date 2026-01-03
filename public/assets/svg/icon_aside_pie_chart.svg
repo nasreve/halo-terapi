@@ -1,0 +1,7 @@
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="pie-chart">
+    <rect id="Rectangle_1683" data-name="Rectangle 1683" width="24" height="24" fill="#28af52" opacity="0"/>
+    <path id="Path_635" data-name="Path 635" d="M13,2a1,1,0,0,0-1,1v8a1,1,0,0,0,1,1h8a1,1,0,0,0,1-1A9,9,0,0,0,13,2Zm1,8V4.07A7,7,0,0,1,19.93,10Z" fill="#28af52"/>
+    <path id="Path_636" data-name="Path 636" d="M20.82,14.06a1,1,0,0,0-1.28.61A8,8,0,1,1,9.33,4.46a1,1,0,1,0-.66-1.89A10,10,0,1,0,21.43,15.33a1,1,0,0,0-.61-1.27Z" fill="#28af52"/>
+  </g>
+</svg>

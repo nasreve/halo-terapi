@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Layer_2" data-name="Layer 2" opacity="0.4">
+    <g id="calendar">
+      <rect id="Rectangle_1701" data-name="Rectangle 1701" width="24" height="24" fill="#777" opacity="0"/>
+      <path id="Path_659" data-name="Path 659" d="M18,4H17V3a1,1,0,0,0-2,0V4H9V3A1,1,0,0,0,7,3V4H6A3,3,0,0,0,3,7V19a3,3,0,0,0,3,3H18a3,3,0,0,0,3-3V7a3,3,0,0,0-3-3ZM6,6H7V7A1,1,0,0,0,9,7V6h6V7a1,1,0,0,0,2,0V6h1a1,1,0,0,1,1,1v4H5V7A1,1,0,0,1,6,6ZM18,20H6a1,1,0,0,1-1-1V13H19v6A1,1,0,0,1,18,20Z" fill="#777"/>
+      <circle id="Ellipse_195" data-name="Ellipse 195" cx="1" cy="1" r="1" transform="translate(7 15)" fill="#777"/>
+      <path id="Path_660" data-name="Path 660" d="M16,15H12a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Z" fill="#777"/>
+    </g>
+  </g>
+</svg>

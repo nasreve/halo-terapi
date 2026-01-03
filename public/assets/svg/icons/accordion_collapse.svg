@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Layer_2" data-name="Layer 2" opacity="0.5">
+    <g id="plus-circle">
+      <rect id="Rectangle_1497" data-name="Rectangle 1497" width="24" height="24" fill="#8a949b" opacity="0"/>
+      <path id="Path_558" data-name="Path 558" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" fill="#8a949b"/>
+      <path id="Path_559" data-name="Path 559" d="M15,11H13V9a1,1,0,0,0-2,0v2H9a1,1,0,0,0,0,2h2v2a1,1,0,0,0,2,0V13h2a1,1,0,0,0,0-2Z" fill="#8a949b"/>
+    </g>
+  </g>
+</svg>
