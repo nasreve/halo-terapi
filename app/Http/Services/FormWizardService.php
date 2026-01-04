@@ -41,6 +41,9 @@ class FormWizardService
 
     /**
      * Mengambil harga layanan terapis
+     * 
+     * In NOMINAL mode: Returns the fixed price from Service model
+     * In PERCENTAGE mode: Returns the rate from TherapistService pivot table
      *
      * @param  integer $therapist_id
      * @param  integer $service_id
@@ -48,6 +51,12 @@ class FormWizardService
      */
     public static function getTherapistRate($therapist_id, $service_id)
     {
+        $setting = Setting::first();
+        if ($setting->use_service_fee_nominal) {
+            $service = \App\Models\Service::find($service_id);
+            return optional($service)->price ?? 0;
+        }
+
         $data = TherapistService::where([
             'therapist_id' => $therapist_id,
             'service_id' => $service_id
@@ -58,27 +67,51 @@ class FormWizardService
 
     /**
      * Mengkalkulasi bayaran terapis
+     * 
+     * In NOMINAL mode: Returns the fixed therapist_commission from Service model
+     * In PERCENTAGE mode: Returns rate * therapist_fee_percentage / 100
      *
      * @param  integer $rate
+     * @param  integer|null $service_id
      * @return integer
      */
-    public static function getTherapistFee($rate)
+    public static function getTherapistFee($rate, $service_id = null)
     {
-        $therapistPercent = Setting::first()->therapist_fee;
+        $setting = Setting::first();
+
+        if ($setting->use_service_fee_nominal && $service_id) {
+            $service = \App\Models\Service::find($service_id);
+            return optional($service)->therapist_commission ?? 0;
+        }
+
+        $therapistPercent = $setting->therapist_fee;
         return $rate * $therapistPercent / 100;
     }
 
     /**
-     * Mengkalkulasi bayaran vendor
+     * Mengkalkulasi bayaran vendor (klinik)
+     * 
+     * In NOMINAL mode: Returns price - therapist_commission - referrer_fee
+     * In PERCENTAGE mode: Returns rate * vendor_fee_percentage / 100
      *
      * @param  integer $rate
      * @param  mixed $referrer
+     * @param  integer|null $service_id
      * @return integer
      */
-    public static function getVendorFee($rate, $referrer)
+    public static function getVendorFee($rate, $referrer, $service_id = null)
     {
-        $vendor_percent = Setting::first()->vendor_fee;
-        $referrer_percent = Setting::first()->referrer_fee;
+        $setting = Setting::first();
+        $vendor_percent = $setting->vendor_fee;
+        $referrer_percent = $setting->referrer_fee;
+
+        if ($setting->use_service_fee_nominal && $service_id) {
+            $service = \App\Models\Service::find($service_id);
+            $commission = optional($service)->therapist_commission ?? 0;
+            $referrerFee = self::getreRerrerFee($rate, $referrer);
+
+            return $rate - $commission - $referrerFee;
+        }
 
         if ($referrer) {
             return $rate * $vendor_percent / 100;
@@ -242,11 +275,14 @@ class FormWizardService
         $therapistDistricts = session('therapistDistricts');
         $therapistDistrict = $therapistDistricts->where('service_id', $service_id)->first();
 
-        return array_key_exists('district_id', Arr::wrap($therapistDistrict)) ? $therapistDistrict['district_id']: null;
+        return array_key_exists('district_id', Arr::wrap($therapistDistrict)) ? $therapistDistrict['district_id'] : null;
     }
 
     /**
      * Menjumlahkan total harga
+     * 
+     * In NOMINAL mode: Sums Service->price for each chosen service
+     * In PERCENTAGE mode: Sums TherapistService->rate for each chosen service
      *
      * @return int
      */
@@ -255,7 +291,7 @@ class FormWizardService
         $amount = 0;
 
         foreach (session('choosenTherapists') as $therapist) {
-            $amount += optional(TherapistService::where('therapist_id', $therapist->therapist_id)->where('service_id', $therapist->service_id)->first())->rate;
+            $amount += self::getTherapistRate($therapist->therapist_id, $therapist->service_id) ?? 0;
         }
 
         return $amount;

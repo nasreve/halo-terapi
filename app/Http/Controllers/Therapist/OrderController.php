@@ -64,7 +64,13 @@ class OrderController extends Controller
             }
 
             $newOrder = $order->replicate([
-                'referrer_id', 'payment_status', 'payment_date', 'order_status', 'paid_amount', 'cashback_amount', 'transaction_amount'
+                'referrer_id',
+                'payment_status',
+                'payment_date',
+                'order_status',
+                'paid_amount',
+                'cashback_amount',
+                'transaction_amount'
             ]);
 
             $newOrder->push();
@@ -73,13 +79,19 @@ class OrderController extends Controller
                 $rate = OrderService::getActualPrice($therapist, $orderItem->service);
 
                 $newOrderItem = $orderItem->replicate([
-                    'rate', 'referrer_fee', 'therapist_fee', 'vendor_fee'
+                    'rate',
+                    'referrer_fee',
+                    'therapist_fee',
+                    'vendor_fee'
                 ]);
 
                 $newOrderItem->order_id = $newOrder->id;
                 $newOrderItem->rate = $rate;
-                $newOrderItem->therapist_fee = FormWizardService::getTherapistFee($rate);
-                $newOrderItem->vendor_fee = FormWizardService::getVendorFee($rate, ReferrerService::checkReferrerStatus($order->referrer_id));
+
+                $serviceId = \App\Models\Service::where('title', $orderItem->service)->value('id');
+
+                $newOrderItem->therapist_fee = FormWizardService::getTherapistFee($rate, $serviceId);
+                $newOrderItem->vendor_fee = FormWizardService::getVendorFee($rate, ReferrerService::checkReferrerStatus($order->referrer_id), $serviceId);
                 $newOrderItem->save();
 
                 $newOrder->transaction_amount = $newOrder->transaction_amount + $newOrderItem->rate;

@@ -215,6 +215,21 @@ function formatPrice($price)
 }
 
 /**
+ * Mengambil harga layanan berdasarkan mode fee (nominal atau persentase)
+ * 
+ * In NOMINAL mode: Returns Service->price
+ * In PERCENTAGE mode: Returns TherapistService->rate
+ *
+ * @param  integer $therapist_id
+ * @param  integer $service_id
+ * @return integer
+ */
+function getServiceDisplayPrice($therapist_id, $service_id)
+{
+    return \App\Http\Services\FormWizardService::getTherapistRate($therapist_id, $service_id) ?? 0;
+}
+
+/**
  * Memformat angka koma dua.
  *
  * @param  string $price

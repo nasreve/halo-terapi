@@ -96,6 +96,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/my-profile', [SettingController::class, 'updateMyProfile'])->name('my-profile.update');
             Route::get('/system', [SettingController::class, 'showSystemForm'])->name('system.form');
             Route::post('/update-fee', [SettingController::class, 'updateFee'])->name('fee.update');
+            Route::post('/update-nominal-fee', [SettingController::class, 'updateNominalFee'])->name('setting.updateNominalFee');
             Route::post('/update-account', [SettingController::class, 'updateAccount'])->name('account.update');
             Route::post('/update-transport', [SettingController::class, 'updateTransport'])->name('transport.update');
         });

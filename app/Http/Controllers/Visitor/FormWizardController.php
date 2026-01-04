@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class FormWizardController extends Controller
 {
@@ -316,6 +317,7 @@ class FormWizardController extends Controller
         $therapists = collect();
         $therapistServices = collect();
         $services = collect();
+        $prices = collect();
 
         foreach (session('choosenTherapists') as $therapist) {
             $therapists->push(Therapist::find($therapist['therapist_id']));
@@ -324,10 +326,12 @@ class FormWizardController extends Controller
                 'service_id' => $therapist['service_id']
             ])->first());
             $services->push(Service::find($therapist['service_id']));
+            // Get the correct price based on fee mode (nominal or percentage)
+            $prices->push(FormWizardService::getTherapistRate($therapist['therapist_id'], $therapist['service_id']) ?? 0);
         }
 
-        return view('visitor.patient.order.step-4', compact('therapists', 'services', 'therapistServices') + [
-            'totalPrice' => FormwizardService::getTotalPrice(),
+        return view('visitor.patient.order.step-4', compact('therapists', 'services', 'therapistServices', 'prices') + [
+            'totalPrice' => FormWizardService::getTotalPrice(),
             'setting' => Setting::first()
         ]);
     }
@@ -440,8 +444,8 @@ class FormWizardController extends Controller
                     'order_id' => $order_id,
                     'service' => Service::find($choosenTherapist->service_id)->title,
                     'rate' => $rate,
-                    'therapist_fee' => FormWizardService::getTherapistFee($rate),
-                    'vendor_fee' => FormWizardService::getVendorFee($rate, $order->referrer_id),
+                    'therapist_fee' => FormWizardService::getTherapistFee($rate, $choosenTherapist->service_id),
+                    'vendor_fee' => FormWizardService::getVendorFee($rate, $order->referrer_id, $choosenTherapist->service_id),
                     'referrer_fee' => null
                 ]);
 

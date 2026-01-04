@@ -68,11 +68,14 @@ class SettingController extends Controller
      */
     public function showSystemForm()
     {
-        return view('admin.setting.system', ['setting' => Setting::first()]);
+        return view('admin.setting.system', [
+            'setting' => Setting::first(),
+            'services' => \App\Models\Service::all()
+        ]);
     }
 
     /**
-     * Update persentasi fee
+     * Update persentase fee
      *
      * @param  mixed $request
      * @return void
@@ -85,9 +88,67 @@ class SettingController extends Controller
             $setting = Setting::first();
             $setting->update($request->validated());
 
+            // Also update the toggle if it's included in the form
+            if ($request->has('is_service_fee_form')) {
+                $setting->update([
+                    'use_service_fee_nominal' => (bool) $request->input('use_service_fee_nominal', 0)
+                ]);
+            }
+
             return response()->json(['message' => 'Data berhasil diupdate.'], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Data gagal diupdate.'], 500);
+        }
+    }
+
+    public function updateNominalFee(Request $request)
+    {
+        try {
+            $setting = Setting::first();
+
+            // Update the toggle setting if this is a service fee form submission
+            if ($request->has('is_service_fee_form')) {
+                // The form sends use_service_fee_nominal=1 when nominal mode is active
+                // If the field is present and has value "1" or truthy, set to true
+                // Otherwise (including when not present), we don't change it unless explicitly set
+                if ($request->has('use_service_fee_nominal')) {
+                    $setting->update([
+                        'use_service_fee_nominal' => (bool) $request->input('use_service_fee_nominal')
+                    ]);
+                }
+            }
+
+            // Update service prices and commissions
+            $services = $request->input('services', []);
+
+            // Validate: commission should not be greater than price
+            foreach ($services as $id => $data) {
+                $price = (int) str_replace('.', '', $data['price'] ?? 0);
+                $commission = (int) str_replace('.', '', $data['therapist_commission'] ?? 0);
+
+                if ($commission > $price) {
+                    $service = \App\Models\Service::find($id);
+                    $serviceName = $service ? $service->title : "ID $id";
+                    return response()->json([
+                        'message' => "Komisi terapis untuk layanan \"$serviceName\" tidak boleh lebih besar dari harga jual."
+                    ], 422);
+                }
+            }
+
+            // Save services after validation passes
+            foreach ($services as $id => $data) {
+                $service = \App\Models\Service::find($id);
+                if ($service) {
+                    $service->update([
+                        'price' => (int) str_replace('.', '', $data['price'] ?? 0),
+                        'therapist_commission' => (int) str_replace('.', '', $data['therapist_commission'] ?? 0)
+                    ]);
+                }
+            }
+
+            return response()->json(['message' => 'Data berhasil diupdate.'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Data gagal diupdate. ' . $th->getMessage()], 500);
         }
     }
 
@@ -102,7 +163,9 @@ class SettingController extends Controller
         try {
             $setting = Setting::first();
             $setting->update($request->only([
-                'bank_name', 'bank_account', 'account_number'
+                'bank_name',
+                'bank_account',
+                'account_number'
             ]));
 
             if ($request->hasFile('logo_path')) {

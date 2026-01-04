@@ -9,11 +9,14 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function therapists()
     {
         return $this->belongsToMany(Therapist::class, 'therapist_services', 'service_id', 'therapist_id')
             ->withPivot([
-                'rate', 'status'
+                'rate',
+                'status'
             ]);
     }
 }

@@ -310,8 +310,8 @@ class CreateOrderController extends Controller
                     'order_id' => $order->id,
                     'service' => Service::find($service['service_id'])->title,
                     'rate' => $rate,
-                    'therapist_fee' => FormWizardService::getTherapistFee($rate),
-                    'vendor_fee' => FormWizardService::getVendorFee($rate, $order->referrer_id),
+                    'therapist_fee' => FormWizardService::getTherapistFee($rate, $service['service_id']),
+                    'vendor_fee' => FormWizardService::getVendorFee($rate, $order->referrer_id, $service['service_id']),
                     'referrer_fee' => null
                 ]);
 
